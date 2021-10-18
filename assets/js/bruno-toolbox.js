@@ -27,3 +27,31 @@ const GCD = (...nums) => {
   const _gcd = (x, y) => (!y ? x : GCD(y, x % y));
   return [...nums].reduce((a, b) => _gcd(a, b));
 };
+const LCM = (...nums) => {
+  const _gcd = (x, y) => (!y ? x : _gcd(y, x % y));
+  const _lcm = (x, y) => (x * y) / _gcd(x, y);
+  return [...nums].reduce((a, b) => _lcm(a, b));
+};
+const deepFreeze = obj => {
+  Object.keys(obj).forEach(prop => {
+    if (typeof obj[prop] === 'object') deepFreeze(obj[prop]);
+  });
+  return Object.freeze(obj);
+};
+const Curry = (fn, arity = fn.length, ...args) =>
+  arity <= args.length ? fn(...args) : curry.bind(null, fn, arity, ...args);
+const CaesarCipher = (str, shift, decrypt = false) => {
+  const s = decrypt ? (26 - shift) % 26 : shift;
+  const n = s > 0 ? s : 26 + (s % 26);
+  return [...str]
+    .map((l, i) => {
+      const c = str.charCodeAt(i);
+      if (c >= 65 && c <= 90)
+        return String.fromCharCode(((c - 65 + n) % 26) + 65);
+      if (c >= 97 && c <= 122)
+        return String.fromCharCode(((c - 97 + n) % 26) + 97);
+      return l;
+    })
+    .join('');
+};
+
